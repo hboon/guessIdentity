@@ -5,15 +5,15 @@ Inspired by http://www.quora.com/Square-company/How-does-Square-know-my-name-in-
 
 Usage
 ---
-#import "guessIdentity.h"
+ #import "guessIdentity.h"
 
 NSDictionary* guessIdentity();
 
 
 Frameworks
 ---
-AddressBook
-CommonCrypto
+* AddressBook
+* CommonCrypto
 
 
 License
