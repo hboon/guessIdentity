@@ -2,12 +2,11 @@ Guess details about the device's user. Proof-of-concept at the moment.
 
 Inspired by http://www.quora.com/Square-company/How-does-Square-know-my-name-in-their-apps-registration-process?srid=TjL, thanks to Square and [John Feminella](http://www.quora.com/John-Feminella)
 
-
 Usage
 ---
- #import "guessIdentity.h"
-
-NSDictionary* guessIdentity();
+	#import "UIDevice+GuessIdentity.h"
+	
+	NSDictionary *identity = [[UIDevice currentDevice] guessedIdentity];
 
 
 Frameworks
