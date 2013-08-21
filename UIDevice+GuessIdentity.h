@@ -2,8 +2,10 @@
 //  guessIdentity.h
 //
 //  Created by Hwee-Boon Yar on Mar/29/12.
+//  Modified by Henri Normak on Aug/12/13
 //  Copyright (c) 2012 MotionObj. All rights reserved.
 //
+
 /*
 The MIT License (MIT)
 
@@ -17,5 +19,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-NSDictionary* guessIdentity(void);
+@interface UIDevice (GuessIdentity)
+
+// Returns nil if the user has not permitted the use of the address book
+// or if a guess could not be made
+// On iOS 6 and above this call blocs when the user permission is asked
+- (NSDictionary *)guessedIdentity NS_AVAILABLE_IOS(4_0);
+
+@end
+
+#pragma mark -
+#pragma mark Dictionary keys
+
+// NSString values
+extern NSString *const GuessIdentityFirstNameKey;
+extern NSString *const GuessIdentityLastNameKey;
+extern NSString *const GuessIdentityEmailKey;
+
+// An NSURL object or nil if no valid URL could be generated
+extern NSString *const GuessIdentityGravatarURLKey;
+
+// An UIImage avatar for the identity
+extern NSString *const GuessIdentityAvatarImageKey;
