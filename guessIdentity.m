@@ -58,7 +58,7 @@ NSDictionary* guessIdentity(void) {
 	NSMutableDictionary* results = [NSMutableDictionary dictionary];
 	BOOL matched = NO;
 
-	ABAddressBookRef addressBook = ABAddressBookCreate();
+	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, nil);
 	NSArray* addressBookEntries = (NSArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
 	for (int i=0; i<[addressBookEntries count]; ++i) {
 		ABRecordRef each = addressBookEntries[i];
