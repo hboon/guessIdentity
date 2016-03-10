@@ -18,7 +18,7 @@ Frameworks
 
 License
 ---
-MIT unless otherwise stated.
+BSD unless otherwise stated.
 
 
 Questions?
