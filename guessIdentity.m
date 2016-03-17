@@ -49,7 +49,7 @@ NSDictionary* guessIdentity(void) {
 	NSString* deviceName = [UIDevice currentDevice].name;
 
 	deviceName = [deviceName lowercaseString];
-	for (NSString* s in [NSArray arrayWithObjects:@"'s iphone", @"'s ipad", @"'s ipod touch", @"'s ipod", @"iphone", @"ipad", @"ipod touch", @"ipod", nil]) {
+	for (NSString* s in @[@"'s iphone", @"'s ipad", @"'s ipod touch", @"'s ipod", @"iphone", @"ipad", @"ipod touch", @"ipod"]) {
 		deviceName = [deviceName stringByReplacingOccurrencesOfString:s withString:@""];
 	}
 
@@ -58,10 +58,10 @@ NSDictionary* guessIdentity(void) {
 	NSMutableDictionary* results = [NSMutableDictionary dictionary];
 	BOOL matched = NO;
 
-	ABAddressBookRef addressBook = ABAddressBookCreate();
+	ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, nil);
 	NSArray* addressBookEntries = (NSArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
 	for (int i=0; i<[addressBookEntries count]; ++i) {
-		ABRecordRef each = [addressBookEntries objectAtIndex:i];
+		ABRecordRef each = addressBookEntries[i];
 		NSString* firstName = (NSString*)ABRecordCopyValue(each, kABPersonFirstNameProperty);
 		NSString* lastName = (NSString*)ABRecordCopyValue(each, kABPersonLastNameProperty);
 		NSString* name = [[NSString stringWithFormat:@"%@ %@", firstName, lastName] lowercaseString];
@@ -87,8 +87,8 @@ NSDictionary* guessIdentity(void) {
 
 			if (matched) {
 				NSString* avatarUrl = [NSString stringWithFormat:@"http://www.gravatar.com/avatar/%@?d=404", [md5([[email lowercaseString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]) lowercaseString]];
-				[results setObject:avatarUrl forKey:@"avatarUrl"];
-				[results setObject:email forKey:@"email"];
+				results[@"avatarUrl"] = avatarUrl;
+				results[@"email"] = email;
 				break;
 			}
 		}
@@ -97,17 +97,17 @@ NSDictionary* guessIdentity(void) {
 
 		if (matched) {
 			if ([firstName length] > 0) {
-				[results setObject:firstName forKey:@"firstName"];
+				results[@"firstName"] = firstName;
 			}
 
 			if ([lastName length] > 0) {
-				[results setObject:lastName forKey:@"lastName"];
+				results[@"lastName"] = lastName;
 			}
 
 			if (ABPersonHasImageData(each)) {
 				NSData* avatarData = (NSData*)ABPersonCopyImageDataWithFormat(each, kABPersonImageFormatOriginalSize);
 				if (avatarData) {
-					[results setObject:[UIImage imageWithData:avatarData] forKey:@"avatar"];
+					results[@"avatar"] = [UIImage imageWithData:avatarData];
 					CFRelease(avatarData);
 				}
 			}
